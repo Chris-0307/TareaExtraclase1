@@ -1,7 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MainInterfazGrafica extends JFrame {
-    MainInterfazGrafica(){
+public class ServidorCliente extends JFrame {
+    private JTextField texto_enviar;
+    ServidorCliente(){
         
         /*Declaraciones de variables en las interfaces graficas:
          * 1. Caja de texto con lo que quieres escribir en el chat.
@@ -9,7 +12,7 @@ public class MainInterfazGrafica extends JFrame {
          * 3. Botón para enviar el mensaje.
          */
 
-        JTextField texto_enviar = new JTextField();
+        texto_enviar = new JTextField();
         JTextArea texto_chat = new JTextArea();
         JButton boton_enviar = new JButton("Enviar");
 
@@ -43,9 +46,27 @@ public class MainInterfazGrafica extends JFrame {
         setSize(400,700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        }
-        public static void main(String[] args) {
-            MainInterfazGrafica Chat1 = new MainInterfazGrafica();
+
+        Enviar_texto envio = new Enviar_texto();
+        boton_enviar.addActionListener(envio);
+
     }
+
+    private class Enviar_texto implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            System.out.println(texto_enviar.getText());
+
+        }
+
+    }
+
+        
+
+        
+        
+        public static void main(String[] args) {
+            ServidorCliente Chat1 = new ServidorCliente();
+    }       
 }
 
