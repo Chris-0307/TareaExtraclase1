@@ -1,10 +1,15 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import javax.swing.*;
 
-public class ServidorCliente extends JFrame {
+public class Chat1 extends JFrame {
     private JTextField texto_enviar;
-    ServidorCliente(){
+    Chat1(){
         
         /*Declaraciones de variables en las interfaces graficas:
          * 1. Caja de texto con lo que quieres escribir en el chat.
@@ -55,18 +60,26 @@ public class ServidorCliente extends JFrame {
     private class Enviar_texto implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            System.out.println(texto_enviar.getText());
 
+            try{
+            Socket socket1 = new Socket("127.0.0.1",21564);
+
+            DataOutputStream output = new DataOutputStream(socket1.getOutputStream());
+            output.writeUTF(texto_enviar.getText());
+            output.close();
+
+            } catch (UnknownHostException ev){
+                ev.printStackTrace();
+            } catch (IOException ev) {
+                System.out.println(ev.getMessage());
+            }
         }
 
     }
 
         
-
-        
-        
         public static void main(String[] args) {
-            ServidorCliente Chat1 = new ServidorCliente();
+            Chat1 chat_1 = new Chat1();
     }       
 }
 
