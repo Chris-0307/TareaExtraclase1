@@ -1,5 +1,6 @@
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -42,18 +43,27 @@ public class Chat2 extends JFrame implements Runnable{
     public void run() {
 
         try {
-        ServerSocket serversocket = new ServerSocket(21564);   
+        ServerSocket serversocket = new ServerSocket(21564);
+        String nombre_usuario_1, mensaje1; 
+        Envio_total recibo_total;
+
         
             while(true){
             Socket socket2 = serversocket.accept();
-            DataInputStream recibo = new DataInputStream(socket2.getInputStream());
+            ObjectInputStream info_recibida = new ObjectInputStream(socket2.getInputStream());
+            recibo_total = (Envio_total) info_recibida.readObject();
+
+            nombre_usuario_1 = recibo_total.get_nombre_usuario1();
+            mensaje1 = recibo_total.get_mensaje_1();
+            /*DataInputStream recibo = new DataInputStream(socket2.getInputStream());
 
             String msj = recibo.readUTF();
-            texto_chat2.append("\n" + "Chat 1: " + msj);
+            texto_chat2.append("\n" + msj);*/
+            texto_chat2.append("\n" + nombre_usuario_1 + ": " + mensaje1);
             socket2.close();
         }
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         
